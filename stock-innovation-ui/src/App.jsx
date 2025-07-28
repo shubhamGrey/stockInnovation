@@ -6,6 +6,7 @@ import {
   StockHeader,
   TabNavigation,
   TabContent,
+  MarketOverview,
 } from './components';
 import LoadingMessage from './components/LoadingMessage';
 import useStockAnalysis from './hooks/useStockAnalysis';
@@ -14,6 +15,7 @@ import './App.css';
 function App() {
   const [ticker, setTicker] = useState('');
   const [activeTab, setActiveTab] = useState('overview');
+  const [activeView, setActiveView] = useState('search'); // 'search' or 'market'
   const { analysis, loading, error, startTime, fetchAnalysis } = useStockAnalysis();
 
   const handleSubmit = () => {
@@ -29,30 +31,36 @@ function App() {
 
   return (
     <div className="app">
-      <Header />
+      <Header activeView={activeView} onViewChange={setActiveView} />
 
       <main className="main">
         <div className="container">
-          <SearchBar
-            ticker={ticker}
-            setTicker={setTicker}
-            onSubmit={handleSubmit}
-            onSuggestionClick={handleSuggestionClick}
-            loading={loading}
-          />
+          {activeView === 'search' ? (
+            <>
+              <SearchBar
+                ticker={ticker}
+                setTicker={setTicker}
+                onSubmit={handleSubmit}
+                onSuggestionClick={handleSuggestionClick}
+                loading={loading}
+              />
 
-          <ErrorDisplay error={error} />
+              <ErrorDisplay error={error} />
 
-          {loading && (
-            <LoadingMessage ticker={ticker} startTime={startTime} />
-          )}
+              {loading && (
+                <LoadingMessage ticker={ticker} startTime={startTime} />
+              )}
 
-          {analysis && !loading && (
-            <div className="results">
-              <StockHeader analysis={analysis} ticker={ticker} />
-              <TabNavigation activeTab={activeTab} onTabChange={setActiveTab} />
-              <TabContent activeTab={activeTab} analysis={analysis} />
-            </div>
+              {analysis && !loading && (
+                <div className="results">
+                  <StockHeader analysis={analysis} ticker={ticker} />
+                  <TabNavigation activeTab={activeTab} onTabChange={setActiveTab} />
+                  <TabContent activeTab={activeTab} analysis={analysis} />
+                </div>
+              )}
+            </>
+          ) : (
+            <MarketOverview />
           )}
         </div>
       </main>
