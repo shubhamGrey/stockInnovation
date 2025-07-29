@@ -6,7 +6,7 @@ function InvestmentTab({ analysis }) {
   const advice = analysis.investment_advice;
 
   return (
-    <div className="advice-tab">
+    <div className="investment-tab">
       <div className="outlook-cards">
         <div className="outlook-card short-term">
           <h4>1 Week</h4>

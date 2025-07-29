@@ -17,7 +17,7 @@ function FundamentalsTab({ analysis }) {
           <h3>Key Metrics</h3>
           <div className="metrics-grid">
             {Object.entries(fundamentals.key_metrics).map(([key, value]) => (
-              <div key={key} className="metric-card">
+              <div key={key} className="metric-item">
                 <div className="metric-label">{key.replace(/_/g, ' ')}</div>
                 <div className="metric-value">{value}</div>
               </div>
